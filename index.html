@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	</head>
+	<body>
+		<h1>Welcome to Rock Paper Scissor game!!!</h1>
+		<p>Please choose one of these options:</p>
+		<label for="rock">Rock</label>
+		<input type="radio" name="choosingOption" class="choosingOption" id="rock" value="Rock"/>
+		<label for="paper">Paper</label>
+		<input type="radio" name="choosingOption" class="choosingOption" id="paper" value="Paper"/>
+		<label for="scissors">Scissors</label>
+		<input type="radio" name="choosingOption" class="choosingOption" id="scissors" value="Scissors"/>
+
+		<p id="computerResult"></p>
+		<p id="winningMessage"></p>
+		<input type="submit" class="playAgain" value="Again"/>
+		<script>
+			// Create an array of options
+			var optionList = ['Rock', 'Paper', 'Scissors'];
+
+			// Create a variable to represent the result of computer above
+			var computerResult = document.querySelector('p#computerResult');
+
+			// Create a variable to represent the winning message above
+			var winningMessage = document.querySelector('p#winningMessage');
+
+			// Create a variable to represent the Play Again button above
+			var playAgain = document.querySelector('input.playAgain');
+			
+			
+			// Create a variable to represent the options above
+			var choosingOption = document.querySelectorAll('input.choosingOption');
+
+			// Create the first value of user option and computer option
+			var userOption = null;
+			var computerOption = null;
+
+			// Add click event for each radio button.
+			for(var i = 0; i < choosingOption.length; i++) {
+				choosingOption[i].addEventListener('change', function() {
+					if(this.checked) {
+						userOption = this.value;
+						resultMessages();
+					}
+				});
+			}
+
+			// Set the result messages function for the game
+			function resultMessages(){
+				computerOption = randomOption(optionList);
+				computerResult.textContent = 'The option of Computer is: ' + computerOption;
+				if (computerOption === userOption) {
+					winningMessage.textContent = 'Ties! It\'s a draw.';
+				} else
+				switch (computerOption) {
+					case 'Rock': {
+						if(userOption === 'Paper') {
+							winningMessage.textContent = 'Paper beats Rock! User win';
+							break;
+						}
+						if(userOption === 'Scissors') {
+							winningMessage.textContent = 'Rock beats Scissors! Computer win';
+							break;
+						}
+					}
+					case 'Paper': {
+						if(userOption === 'Rock') {
+							winningMessage.textContent = 'Paper beats Rock! Computer win';
+							break;
+						}
+						if(userOption === 'Scissors') {
+							winningMessage.textContent = 'Scissors beat Paper! User win';
+							break;
+						}
+					}
+					case 'Scissors': {
+						if(userOption === 'Rock') {
+							winningMessage.textContent = 'Rock beats Scissors! User win';
+							break;
+						}
+						if(userOption === 'Paper') {
+							winningMessage.textContent = 'Scissors beat Paper! Computer win';
+							break;
+						}
+					}
+				}
+			}
+			
+			// Add an event listener from Play Again button to call nextGame function
+			playAgain.addEventListener('click', nextGame);
+
+			// Next Game function to repair a new game
+			function nextGame() {
+				// Clear the value of the radio buttons
+				for(var i = 0; i < choosingOption.length; i++) {
+					choosingOption[i].checked = false;
+				}
+				// Clear computer's option
+				computerResult.textContent = '';
+				
+				// Clear the winning message
+				winningMessage.textContent = '';
+			}
+
+			// Random option for computer function
+			function randomOption(array){
+				return array[Math.floor(Math.random()*array.length)];
+			}
+		</script>
+	</body>
+</html>
